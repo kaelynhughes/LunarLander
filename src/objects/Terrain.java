@@ -4,11 +4,14 @@ import edu.usu.graphics.Graphics2D;
 import edu.usu.graphics.Rectangle;
 import edu.usu.graphics.Triangle;
 import edu.usu.graphics.Color;
+
 import enums.DifficultyEnum;
+import enums.ColorsEnum;
+import enums.RenderLayerEnum;
+
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import enums.RenderLayerEnum;
 import tools.MyRandom;
 
 import java.util.ArrayList;
@@ -64,7 +67,6 @@ public class Terrain implements Rendered {
 
     @Override
     public void renderObject() {
-        Color terrainColor = new Color(0.549f, 0.573f, 0.675f);
         float lineHeight = 0.002f;
         for (int i = 1; i < points.size(); i++) {
             TerrainPoint prev = points.get(i - 1);
@@ -85,9 +87,9 @@ public class Terrain implements Rendered {
             Triangle t1 = new Triangle(prev.getPoint(), curr.getPoint(), bottom1);
             Triangle t2 = new Triangle(curr.getPoint(), bottom2, bottom1);
 
-            graphics.draw(t1, terrainColor);
-            graphics.draw(t2, terrainColor);
-            graphics.draw(topLine, angle, center, Color.WHITE);
+            graphics.draw(t1, ColorsEnum.GRAY.getColor());
+            graphics.draw(t2, ColorsEnum.GRAY.getColor());
+            graphics.draw(topLine, angle, center, ColorsEnum.WHITE.getColor());
 
         }
     }
