@@ -1,3 +1,5 @@
+package views;
+
 import edu.usu.graphics.Graphics2D;
 import enums.GameStateEnum;
 
@@ -10,7 +12,7 @@ public abstract class GameStateView implements IGameState {
     }
 
     @Override
-    public void initializeSession() {};
+    public void initializeSession() {}
 
     @Override
     public abstract GameStateEnum processInput(double elapsedTime);

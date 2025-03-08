@@ -1,3 +1,5 @@
+package views;
+
 import edu.usu.graphics.Graphics2D;
 import enums.GameStateEnum;
 

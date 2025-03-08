@@ -1,7 +1,10 @@
+package views;
+
 import edu.usu.graphics.Color;
 import edu.usu.graphics.Font;
 import edu.usu.graphics.Graphics2D;
 import enums.GameStateEnum;
+import tools.KeyboardInput;
 
 import static org.lwjgl.glfw.GLFW.*;
 

@@ -1,14 +1,17 @@
+package views;
+
 import edu.usu.graphics.Color;
 import edu.usu.graphics.Font;
 import edu.usu.graphics.Graphics2D;
 import enums.GameStateEnum;
+import tools.KeyboardInput;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class AboutView extends GameStateView {
+public class HighScoresView extends GameStateView {
 
     private KeyboardInput inputKeyboard;
-    private GameStateEnum nextGameState = GameStateEnum.About;
+    private GameStateEnum nextGameState = GameStateEnum.HighScores;
     private Font font;
 
     @Override
@@ -26,7 +29,7 @@ public class AboutView extends GameStateView {
 
     @Override
     public void initializeSession() {
-        nextGameState = GameStateEnum.About;
+        nextGameState = GameStateEnum.HighScores;
     }
 
     @Override
@@ -42,7 +45,7 @@ public class AboutView extends GameStateView {
 
     @Override
     public void render(double elapsedTime) {
-        final String message = "*I* wrote this amazing game!";
+        final String message = "These are the high scores";
         final float height = 0.075f;
         final float width = font.measureTextWidth(message, height);
 

@@ -1,8 +1,11 @@
+package views;
+
 import enums.DifficultyEnum;
 import enums.GameStateEnum;
 import enums.RenderLayerEnum;
 import objects.*;
 import edu.usu.graphics.Graphics2D;
+import tools.KeyboardInput;
 
 import java.util.ArrayList;
 import java.util.List;

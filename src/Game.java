@@ -1,5 +1,6 @@
 import edu.usu.graphics.*;
 import enums.GameStateEnum;
+import views.*;
 
 import java.util.HashMap;
 
@@ -57,7 +58,7 @@ public class Game {
     }
 
     private void processInput(double elapsedTime) {
-        // Poll for window events: required in order for window, keyboard, etc events are captured.
+        // Poll for window events: required in order for window, keyboard, etc. events are captured.
         glfwPollEvents();
 
         nextStateEnum = currentState.processInput(elapsedTime);

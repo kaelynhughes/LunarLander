@@ -1,3 +1,5 @@
+package tools;
+
 import java.util.HashMap;
 
 import static org.lwjgl.glfw.GLFW.*;

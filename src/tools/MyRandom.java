@@ -1,4 +1,4 @@
-package objects;
+package tools;
 
 import org.joml.Vector2f;
 
