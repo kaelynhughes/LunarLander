@@ -31,6 +31,15 @@ public class MyRandom extends Random {
         return new Vector2f(x, y);
     }
 
+    public Vector2f nextHalfCircleVector(float direction) {
+        float offset = (float) ((this.nextDouble() - 0.5) * Math.PI) + (float) (Math.PI / 2); // Random value in [-π/2, π/2]
+        float angle = direction + offset; // Centered around rotation
+        float x = (float) Math.cos(angle);
+        float y = (float) Math.sin(angle);
+
+        return new Vector2f(x, y);
+    }
+
     /// <summary>
     /// Generate a normally distributed random number.  Derived from a Wiki reference on
     /// how to do this.

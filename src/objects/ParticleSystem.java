@@ -26,6 +26,7 @@ public class ParticleSystem implements Rendered, Moveable {
     private final float speedStdDev;
     private final float lifetimeMean;
     private final float lifetimeStdDev;
+    private float direction;
 
     private Graphics2D graphics;
     private float windowSize;
@@ -41,6 +42,7 @@ public class ParticleSystem implements Rendered, Moveable {
         this.speedStdDev = 0.05f;
         this.lifetimeMean = 2;
         this.lifetimeStdDev = 0.5f;
+        this.direction = 0f;
 
         texParticle = new Texture("resources/images/fire.png");
 
@@ -81,6 +83,10 @@ public class ParticleSystem implements Rendered, Moveable {
         // Generate some new particles
     }
 
+    public void updateDirection(float direction) {
+        this.direction = direction;
+    }
+
     public Collection<Particle> getParticles() {
         return this.particles.values();
     }
@@ -89,7 +95,7 @@ public class ParticleSystem implements Rendered, Moveable {
         float size = (float) this.random.nextGaussian(this.sizeMean, this.sizeStdDev);
         var p = new Particle(
                 new Vector2f(this.center.x, this.center.y),
-                this.random.nextCircleVector(),
+                this.random.nextHalfCircleVector(direction),
                 (float) this.random.nextGaussian(this.speedMean, this.speedStdDev),
                 new Vector2f(size, size),
                 this.random.nextGaussian(this.lifetimeMean, this.lifetimeStdDev));

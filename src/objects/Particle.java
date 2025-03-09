@@ -40,7 +40,6 @@ public class Particle implements Moveable {
 
         // Rotate proportional to its speed
         rotation += (speed / 0.5f);
-        System.out.println("updated particle");
     }
     public boolean isAlive() {
         return alive < lifetime;

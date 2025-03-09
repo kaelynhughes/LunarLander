@@ -95,6 +95,7 @@ public class Ship implements Moveable, Rendered {
             center.x = lowerRightBound;
         }
         particleSystem.move(new Vector2f(center.x, center.y));
+        particleSystem.updateDirection(rotation);
     }
 
     // input processing
