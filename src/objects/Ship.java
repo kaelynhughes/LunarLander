@@ -27,6 +27,7 @@ public class Ship implements Moveable, Rendered {
 
     private Texture sprite;
     private float shipSize;
+    private ParticleSystem particleSystem;
 
     private float upperLeftBound;
     private float lowerRightBound;
@@ -36,11 +37,12 @@ public class Ship implements Moveable, Rendered {
     private static final float FUEL_LOSS_RATE = 5f; // per second
     private static final float GRAVITY_RATE = 0.0015f;
 
-    public Ship(KeyboardInput keyboardInput, Graphics2D graphics, float windowSize, RenderLayerEnum layer) {
+    public Ship(KeyboardInput keyboardInput, Graphics2D graphics, float windowSize, RenderLayerEnum layer, ParticleSystem particleSystem) {
         this.rotation = 0f;
         initialize(keyboardInput);
         initialize(graphics, windowSize, layer);
         this.sprite = new Texture("resources/images/spaceship.png");
+        this.particleSystem = particleSystem;
     }
 
     // initialize interfaces
@@ -92,6 +94,7 @@ public class Ship implements Moveable, Rendered {
             velocity.x = 0;
             center.x = lowerRightBound;
         }
+        particleSystem.move(new Vector2f(center.x, center.y));
     }
 
     // input processing
@@ -135,6 +138,9 @@ public class Ship implements Moveable, Rendered {
         float thrustPower = THRUST_RATE * elapsedTime;
         velocity.x += (float) Math.cos(rotation + ROTATE_RATE) * thrustPower;
         velocity.y += (float) Math.sin(rotation + ROTATE_RATE) * thrustPower;
+
+        particleSystem.createParticles(5);
+
     }
 
     public void crash() {

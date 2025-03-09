@@ -40,7 +40,10 @@ public class GamePlayView extends GameStateView {
         ShipStatusMenu menu = new ShipStatusMenu(graphics, windowSize, RenderLayerEnum.ALRIGHT);
         rendered.add(menu);
 
-        ship = new Ship(inputKeyboard, graphics, windowSize, RenderLayerEnum.MIDDLE);
+        ParticleSystem particleSystem = new ParticleSystem(graphics, windowSize, RenderLayerEnum.MIDDLE);
+        rendered.add(particleSystem);
+        moveables.add(particleSystem);
+        ship = new Ship(inputKeyboard, graphics, windowSize, RenderLayerEnum.MIDDLE, particleSystem);
         rendered.add(ship);
         moveables.add(ship);
         menu.registerShip(ship);
