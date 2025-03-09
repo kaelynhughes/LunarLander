@@ -73,7 +73,7 @@ public class GamePlayView extends GameStateView {
             object.update(elapsedTime);
         }
         if (collisionDetector.getCollision()) {
-            if (collisionDetector.getSafeCollision()) {
+            if (collisionDetector.getSafeCollision() && ship.canLand()) {
                 ship.land();
                 pauseMenu.land();
             } else {

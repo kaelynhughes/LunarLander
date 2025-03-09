@@ -35,7 +35,7 @@ public class Ship implements Moveable, Rendered {
     private static final float ROTATE_RATE = (float) (Math.PI / 2); // radians per second
     private static final float THRUST_RATE = -0.004f; // world coordinates per second
     private static final float FUEL_LOSS_RATE = 5f; // per second
-    private static final float GRAVITY_RATE = 0.0015f;
+    private static final float GRAVITY_RATE = 0.0005f;
 
     public Ship(KeyboardInput keyboardInput, Graphics2D graphics, float windowSize, RenderLayerEnum layer, ParticleSystem particleSystem) {
         this.rotation = 0f;
@@ -149,11 +149,16 @@ public class Ship implements Moveable, Rendered {
         paused = true;
         crashed = true;
         particleSystem.createParticlesFullCircle(1000);
+        resetShip();
     }
 
     public void land() {
         paused = true;
         landed = true;
+    }
+
+    private void resetShip() {
+        this.center = new Vector3f(0f, 0f - (windowSize / 2) + (shipSize / 2), layer.getValue());
     }
 
     // getters
@@ -179,6 +184,10 @@ public class Ship implements Moveable, Rendered {
     }
 
     // can safely land?
+    public boolean canLand() {
+        return isSafeSpeed() && isSafeAngle();
+    }
+
     public boolean isSafeAngle() {
         double degrees = Math.toDegrees(rotation);
         return degrees < 5 || degrees > 355;
