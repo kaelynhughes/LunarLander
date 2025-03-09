@@ -140,13 +140,15 @@ public class Ship implements Moveable, Rendered {
         velocity.x += (float) Math.cos(rotation + ROTATE_RATE) * thrustPower;
         velocity.y += (float) Math.sin(rotation + ROTATE_RATE) * thrustPower;
 
-        particleSystem.createParticles(5);
+        particleSystem.createParticlesHalfCircle(5);
 
     }
 
     public void crash() {
+        if (crashed) return;
         paused = true;
         crashed = true;
+        particleSystem.createParticlesFullCircle(1000);
     }
 
     public void land() {

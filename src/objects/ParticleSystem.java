@@ -102,14 +102,32 @@ public class ParticleSystem implements Rendered, Moveable {
 
         return p;
     }
+    private Particle createFullCircle() {
+        float size = (float) this.random.nextGaussian(this.sizeMean, this.sizeStdDev);
+        var p = new Particle(
+                new Vector2f(this.center.x, this.center.y),
+                this.random.nextCircleVector(),
+                (float) this.random.nextGaussian(this.speedMean, this.speedStdDev),
+                new Vector2f(size, size),
+                this.random.nextGaussian(this.lifetimeMean, this.lifetimeStdDev));
+
+        return p;
+    }
 
     public void move(Vector2f newPosition) {
         this.center = newPosition;
     }
 
-    public void createParticles(int numParticles) {
+    public void createParticlesHalfCircle(int numParticles) {
         for (int i = 1; i < numParticles; i++) {
             var particle = create();
+            particles.put(particle.name, particle);
+        }
+    }
+
+    public void createParticlesFullCircle(int numParticles) {
+        for (int i = 1; i < numParticles; i++) {
+            var particle = createFullCircle();
             particles.put(particle.name, particle);
         }
     }
