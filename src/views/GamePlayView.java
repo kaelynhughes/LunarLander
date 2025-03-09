@@ -33,7 +33,14 @@ public class GamePlayView extends GameStateView {
 
         rendered.add(new Terrain(graphics, windowSize, RenderLayerEnum.MIDDLE, DifficultyEnum.LEVEL1));
         rendered.add(new Background(graphics, windowSize, RenderLayerEnum.BOTTOM));
-        rendered.add(new ShipStatusMenu(graphics, windowSize, RenderLayerEnum.TOP));
+        ShipStatusMenu menu = new ShipStatusMenu(graphics, windowSize, RenderLayerEnum.ALRIGHT);
+        rendered.add(menu);
+
+        Ship ship = new Ship(inputKeyboard, graphics, windowSize, RenderLayerEnum.MIDDLE);
+        rendered.add(ship);
+        moveables.add(ship);
+        menu.registerShip(ship);
+
     }
 
     @Override
@@ -52,6 +59,9 @@ public class GamePlayView extends GameStateView {
 
     @Override
     public void update(double elapsedTime) {
+        for (Moveable object: moveables) {
+            object.update(elapsedTime);
+        }
         // gameModel.update(elapsedTime);
     }
 

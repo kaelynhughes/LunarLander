@@ -17,4 +17,24 @@ public enum RenderLayerEnum {
     public float getDifference() {
         return 0.25f;
     }
+    public RenderLayerEnum higher(RenderLayerEnum e)
+    {
+        int index = e.ordinal();
+        int nextIndex = index + 1;
+        RenderLayerEnum[] layers = RenderLayerEnum.values();
+        if (nextIndex >= layers.length) {
+            nextIndex = layers.length - 1;
+        }
+        return layers[nextIndex];
+    }
+    public RenderLayerEnum lower(RenderLayerEnum e)
+    {
+        int index = e.ordinal();
+        int nextIndex = index - 1;
+        RenderLayerEnum[] layers = RenderLayerEnum.values();
+        if (nextIndex < 0) {
+            nextIndex = 0;
+        }
+        return layers[nextIndex];
+    }
 }
