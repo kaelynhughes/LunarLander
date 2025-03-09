@@ -21,7 +21,9 @@ public class Ship implements Moveable, Rendered {
     private double fuel = 100;
     private Vector2f velocity = new Vector2f(0, 0);
 
-    private boolean levelFinished = false;
+    private boolean paused = false;
+    private boolean crashed = false;
+    private boolean landed = false;
 
     private Texture sprite;
     private float shipSize;
@@ -63,13 +65,14 @@ public class Ship implements Moveable, Rendered {
 
     @Override
     public void renderObject() {
+        if (crashed) return;
         Rectangle destination = new Rectangle(center.x - (shipSize / 2), center.y - (shipSize / 2), shipSize, shipSize, layer.getValue());
         Vector2f center = new Vector2f(this.center.x, this.center.y);
         graphics.draw(sprite, destination, rotation, center, ColorsEnum.WHITE.getColor());
     }
 
     public void update(double elapsedTime) {
-        if (levelFinished) return;
+        if (paused) return;
         velocity.y += GRAVITY_RATE * elapsedTime;
         center.x += velocity.x;
         center.y += velocity.y;
@@ -93,7 +96,7 @@ public class Ship implements Moveable, Rendered {
 
     // input processing
     private void rotateRight(float elapsedTime) {
-        if (fuel <= 0) return;
+        if (fuel <= 0 || paused) return;
         float angle = elapsedTime * ROTATE_RATE;
         rotation += angle;
         if (rotation > Math.toRadians(360)) {
@@ -106,7 +109,7 @@ public class Ship implements Moveable, Rendered {
     }
 
     private void rotateLeft(float elapsedTime) {
-        if (fuel <= 0) return;
+        if (fuel <= 0 || paused) return;
         fuel -= elapsedTime * FUEL_LOSS_RATE;
         if (fuel < 0) {
             fuel = 0;
@@ -120,6 +123,7 @@ public class Ship implements Moveable, Rendered {
     }
 
     private void propel(float elapsedTime) {
+        if (paused) return;
         if (fuel <= 0) {
             fuel = 0;
         }
@@ -133,10 +137,24 @@ public class Ship implements Moveable, Rendered {
         velocity.y += (float) Math.sin(rotation + ROTATE_RATE) * thrustPower;
     }
 
+    public void crash() {
+        paused = true;
+        crashed = true;
+    }
+
+    public void land() {
+        paused = true;
+        landed = true;
+    }
+
     // getters
     @Override
     public Vector3f getCenter() {
         return center;
+    }
+
+    public float getShipWidth() {
+        return shipSize;
     }
 
     public float getRotation() {

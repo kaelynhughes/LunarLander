@@ -3,7 +3,6 @@ package objects;
 import edu.usu.graphics.Graphics2D;
 import edu.usu.graphics.Rectangle;
 import edu.usu.graphics.Triangle;
-import edu.usu.graphics.Color;
 
 import enums.DifficultyEnum;
 import enums.ColorsEnum;
@@ -20,6 +19,7 @@ import java.util.List;
 
 public class Terrain implements Rendered {
     private final List<TerrainPoint> points;
+    private List<SafeZone> safeZones;
     private Graphics2D graphics;
     private RenderLayerEnum layer;
 
@@ -43,7 +43,8 @@ public class Terrain implements Rendered {
 
         this.bottom = 0f + (windowSize / 2);
 
-        List<SafeZone> safeZones = createSafeZones(this.difficulty);
+        safeZones = new ArrayList<>();
+        createSafeZones(this.difficulty);
         Collections.sort(safeZones);
 
         TerrainPoint left = new TerrainPoint(0f - (windowSize / 2), 0.25f, layer);
@@ -136,8 +137,8 @@ public class Terrain implements Rendered {
 //        return (totalDivisions - complete) / totalDivisions;
     }
 
-    private List<SafeZone> createSafeZones(DifficultyEnum difficulty) {
-        List<SafeZone> safeZones = new ArrayList<>();
+    private void createSafeZones(DifficultyEnum difficulty) {
+        safeZones = new ArrayList<>();
         float leftBound = (0f - (windowSize / 2)) * 0.85f;
         float rightBound = (0f + (windowSize / 2)) * 0.85f;
         float lowerBound = (0f + windowSize / 2) * 0.85f;
@@ -163,6 +164,23 @@ public class Terrain implements Rendered {
                 }
             }
         }
-        return safeZones;
+    }
+
+    public List<Vector2f> getTerrainPoints() {
+        List<Vector2f> vectors = new ArrayList<>();
+        for (TerrainPoint point: points) {
+            vectors.add(new Vector2f(point.getX(), point.getY()));
+        }
+        return vectors;
+    }
+    public Vector2f[] getSafeSegment(Vector2f position) {
+        for (SafeZone safeZone: safeZones) {
+            if (safeZone.getLeft().x < position.x() && safeZone.getRight().x > position.x()) {
+                Vector2f point1 = new Vector2f(safeZone.getLeft().x, safeZone.getLeft().y);
+                Vector2f point2 = new Vector2f(safeZone.getRight().x, safeZone.getRight().y);
+                return new Vector2f[]{point1, point2};
+            }
+        }
+        return new Vector2f[]{};
     }
 }

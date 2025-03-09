@@ -5,6 +5,7 @@ import enums.GameStateEnum;
 import enums.RenderLayerEnum;
 import objects.*;
 import edu.usu.graphics.Graphics2D;
+import tools.CollisionDetector;
 import tools.KeyboardInput;
 
 import java.util.ArrayList;
@@ -16,10 +17,12 @@ public class GamePlayView extends GameStateView {
 
     private KeyboardInput inputKeyboard;
     private GameStateEnum nextGameState = GameStateEnum.GamePlay;
-    // private GameModel gameModel;
+    private CollisionDetector collisionDetector;
     private final List<Moveable> moveables = new ArrayList<>();
     private final List<Rendered> rendered = new ArrayList<>();
     private final float windowSize = 1f;
+    private Ship ship;
+    private PauseMenu pauseMenu;
 
     @Override
     public void initialize(Graphics2D graphics) {
@@ -31,15 +34,19 @@ public class GamePlayView extends GameStateView {
             nextGameState = GameStateEnum.MainMenu;
         });
 
-        rendered.add(new Terrain(graphics, windowSize, RenderLayerEnum.MIDDLE, DifficultyEnum.LEVEL1));
+        Terrain terrain = new Terrain(graphics, windowSize, RenderLayerEnum.MIDDLE, DifficultyEnum.LEVEL1);
+        rendered.add(terrain);
         rendered.add(new Background(graphics, windowSize, RenderLayerEnum.BOTTOM));
         ShipStatusMenu menu = new ShipStatusMenu(graphics, windowSize, RenderLayerEnum.ALRIGHT);
         rendered.add(menu);
 
-        Ship ship = new Ship(inputKeyboard, graphics, windowSize, RenderLayerEnum.MIDDLE);
+        ship = new Ship(inputKeyboard, graphics, windowSize, RenderLayerEnum.MIDDLE);
         rendered.add(ship);
         moveables.add(ship);
         menu.registerShip(ship);
+
+        collisionDetector = new CollisionDetector(terrain, ship);
+        pauseMenu = new PauseMenu(graphics, windowSize, RenderLayerEnum.TOP);
 
     }
 
@@ -61,6 +68,15 @@ public class GamePlayView extends GameStateView {
     public void update(double elapsedTime) {
         for (Moveable object: moveables) {
             object.update(elapsedTime);
+        }
+        if (collisionDetector.getCollision()) {
+            if (collisionDetector.getSafeCollision()) {
+                ship.land();
+                pauseMenu.land();
+            } else {
+                ship.crash();
+                pauseMenu.crash();
+            }
         }
         // gameModel.update(elapsedTime);
     }
